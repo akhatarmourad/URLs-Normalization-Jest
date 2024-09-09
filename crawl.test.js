@@ -1,4 +1,4 @@
-const { standardizeURL} = require('./crawl');
+const { standardizeURL, getURLsFromHTML, getURlsFromHTML } = require('./crawl');
 const { test, expect } = require('@jest/globals');
 
 test('standardizeURL Strip Strailing Slashes', function() {
@@ -10,4 +10,42 @@ test('standardizeURL Strip Strailing Slashes', function() {
     expect(actual).toEqual(expected);
 });
 
-test('standardizeURL Capitals', () => {});
+test('standardizeURL Capitals', () => {
+    const input = 'https://www.instagram.com/DEVDESCOM';
+    const current = standardizeURL(input);
+    const expected = 'www.instagram.com/devdescom';
+
+    expect(current).toEqual(expected);
+});
+
+test('getURLsFromHTML absolute', () => {
+    const inputHTMLBody = `
+        <html>
+            <body>
+                <a href="https://www.instagram.com/devdescom">DEVDES Instagram</a>
+            </body>
+        </html>
+    `;
+
+    const inputBaseURL = 'https://www.instagram.com/devdescom';
+    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const expected = ['https://www.instagram.com/devdescom'];
+
+    expect(actual).toEqual(expected);
+});
+
+test('getURLsFromHTML relative', () => {
+    const inputHTMLBody = `
+        <html>
+            <body>
+                <a href="/devdescom/">DEVDES Instagram</a>
+            </body>
+        </html>
+    `;
+
+    const inputBaseURL = 'https://www.instagram.com';
+    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const expected = ['https://www.instagram.com/devdescom/'];
+
+    expect(actual).toEqual(expected);
+});
