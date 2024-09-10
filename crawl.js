@@ -1,6 +1,6 @@
 const { JSDOM } = require('jsdom');
 
-function getURlsFromHTML(htmlBody, baseUrl) {
+function getURLsFromHTML(htmlBody, baseUrl) {
     const urls = [];
     const DOM = new JSDOM(htmlBody);
     const links = DOM.window.document.querySelectorAll('a');
@@ -84,7 +84,7 @@ async function crawlPage(baseUrl, currentUrl, pages) {
 
         // Extract URLs from HTML
         const htmlBody = await response.text();
-        const nextURLs = getURlsFromHTML(htmlBody, baseUrl);
+        const nextURLs = getURLsFromHTML(htmlBody, baseUrl);
 
         // Recusively crawling the pages/links
         for (const nextURL of nextURLs) {
@@ -100,6 +100,6 @@ async function crawlPage(baseUrl, currentUrl, pages) {
 
 module.exports = {
     standardizeURL,
-    getURlsFromHTML,
+    getURLsFromHTML,
     crawlPage
 }

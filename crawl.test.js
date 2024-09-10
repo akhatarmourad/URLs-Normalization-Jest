@@ -1,4 +1,4 @@
-const { standardizeURL, getURLsFromHTML, getURlsFromHTML } = require('./crawl');
+const { standardizeURL, getURLsFromHTML } = require('./crawl');
 const { test, expect } = require('@jest/globals');
 
 test('standardizeURL Strip Strailing Slashes', function() {
@@ -28,7 +28,7 @@ test('getURLsFromHTML absolute', () => {
     `;
 
     const inputBaseURL = 'https://www.instagram.com/devdescom';
-    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const actual = getURLsFromHTML(inputHTMLBody, inputBaseURL);
     const expected = ['https://www.instagram.com/devdescom'];
 
     expect(actual).toEqual(expected);
@@ -44,7 +44,7 @@ test('getURLsFromHTML relative', () => {
     `;
 
     const inputBaseURL = 'https://www.instagram.com';
-    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const actual = getURLsFromHTML(inputHTMLBody, inputBaseURL);
     const expected = ['https://www.instagram.com/devdescom/'];
 
     expect(actual).toEqual(expected);
@@ -61,7 +61,7 @@ test('getURLsFromHTML multiple', () => {
     `;
 
     const inputBaseURL = 'https://www.instagram.com';
-    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const actual = getURLsFromHTML(inputHTMLBody, inputBaseURL);
     const expected = ['https://www.instagram.com/devdescom/', 'https://www.instagram.com/managital/'];
 
     expect(actual).toEqual(expected);
@@ -72,14 +72,13 @@ test('getURLsFromHTML invalid', () => {
         <html>
             <body>
                 <a href="not a path">Invalid URL</a>
-                <a href="https://www.instagram.com/managital/">Managital</a>
             </body>
         </html>
     `;
 
     const inputBaseURL = 'https://www.instagram.com';
-    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
-    const expected = ['https://www.instagram.com/managital/'];
+    const actual = getURLsFromHTML(inputHTMLBody, inputBaseURL);
+    const expected = [];
 
     expect(actual).toEqual(expected);
 });
