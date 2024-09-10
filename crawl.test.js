@@ -49,3 +49,37 @@ test('getURLsFromHTML relative', () => {
 
     expect(actual).toEqual(expected);
 });
+
+test('getURLsFromHTML multiple', () => {
+    const inputHTMLBody = `
+        <html>
+            <body>
+                <a href="/devdescom/">DEVDES Instagram</a>
+                <a href="https://www.instagram.com/managital/">Managital</a>
+            </body>
+        </html>
+    `;
+
+    const inputBaseURL = 'https://www.instagram.com';
+    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const expected = ['https://www.instagram.com/devdescom/', 'https://www.instagram.com/managital/'];
+
+    expect(actual).toEqual(expected);
+});
+
+test('getURLsFromHTML invalid', () => {
+    const inputHTMLBody = `
+        <html>
+            <body>
+                <a href="not a path">Invalid URL</a>
+                <a href="https://www.instagram.com/managital/">Managital</a>
+            </body>
+        </html>
+    `;
+
+    const inputBaseURL = 'https://www.instagram.com';
+    const actual = getURlsFromHTML(inputHTMLBody, inputBaseURL);
+    const expected = ['https://www.instagram.com/managital/'];
+
+    expect(actual).toEqual(expected);
+});
